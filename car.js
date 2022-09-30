@@ -1,6 +1,5 @@
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
-c.height=window.innerHeight;
 c.width=500;
 
 class Car {
@@ -9,7 +8,20 @@ class Car {
         this.y=y;
         this.width=width;
         this.height=height;
+        this.speed=0;
+        this.acceleration=20;
         this.controls= new Controls()
+    }
+    update(){
+        if(this.controls.forward){
+            //this.y-=2;
+            this.speed+=this.acceleration;
+        }
+        if(this.controls.reverse){
+            //this.y+=2;
+            this.speed-=this.acceleration;
+        }
+        this.y=this.speed;
     }
 
     draw(ctx){
@@ -26,6 +38,14 @@ class Car {
 
     
 }
-let car= new Car(100,100,10,30)
-car.draw(ctx)
+let car= new Car(100,100,10,30);
 
+
+animate();
+function animate(){
+    car.update();
+    c.height=window.innerHeight;
+    car.draw(ctx);
+    requestAnimationFrame(animate)
+    
+}
